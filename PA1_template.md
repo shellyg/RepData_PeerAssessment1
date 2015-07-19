@@ -1,11 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document: 
-    fig_caption: yes
-    fig_width: 7.5
-    keep_md: yes
----
+# Reproducible Research: Peer Assessment 1
 
 ## Loading and preprocessing the data
 The data for this assignment was downloaded from the course web site at: 
@@ -23,7 +16,8 @@ in this dataset are:
 The code below reads in the downloaded *activity.csv* file.   The code also 
 installs the libraries used to process and analyse the data.
 
-```{r results==HIDE}
+
+```r
 # Install packages (as necessary) and libraries
 #install.packages("ggplot2")
 #install.packages("plyr")
@@ -32,8 +26,18 @@ installs the libraries used to process and analyse the data.
 library(ggplot2)
 library(plyr)
 library(reshape)
+```
 
+```
+## 
+## Attaching package: 'reshape'
+## 
+## The following objects are masked from 'package:plyr':
+## 
+##     rename, round_any
+```
 
+```r
 ## READ Data
 df <- read.csv("data/activity.csv")
 ```
@@ -41,7 +45,8 @@ df <- read.csv("data/activity.csv")
 ## What is mean total number of steps taken per day?
 Process the data to calculate the total steps per day and display a histogram. 
 
-```{r}
+
+```r
 # Calculate and plot total steps each day
 steps_total <- ddply(df, "date", summarise, total = sum(steps,na.rm = TRUE))  
 steps_total$day_num <- c(1:61)
@@ -59,10 +64,12 @@ ggplot(steps_total, aes(x=day_num,y=total)) +
     theme(plot.title = element_text(size=16, face="bold"))
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-1-1.png) 
+
 
 ### Mean and medial total steps
-The mean of the total number of steps taken per day is: `r mean_steps`.  The median 
-of the total number of steps taken per day is: `r median_steps`.
+The mean of the total number of steps taken per day is: 9354.  The median 
+of the total number of steps taken per day is: 1.0395\times 10^{4}.
 
 
 ## What is the average daily activity pattern?
@@ -71,7 +78,8 @@ The code below processes the data and provides a time series plot which displays
 the 5-minute intervals (x-axis) and the average number of steps taken, averaged 
 across all days (y-axis).
 
-```{r}
+
+```r
 # Process data to calcuate mean steps per interval across all days
 mdata <- melt(df, id=c("interval","date"), na.rm=TRUE) 
 mdata <- cast(mdata, interval~variable, mean)
@@ -89,23 +97,26 @@ ggplot(mdata, aes(x=interval,y=steps)) +
     theme(plot.title = element_text(size=16, face="bold"))
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
 ### Interval with maximum steps
 
 The 5-minute interval which contains the maximum number of steps on 
-average across all the days in the dataset is: `r max_interval[1]`.
+average across all the days in the dataset is: 2355.
 
 
 ## Imputing missing values
 
 The dataset has a number of observations with missing values (coded as NA ). Missing data may introduce bias into some calculations or summaries of the data. 
 
-```{r}
+
+```r
 # Calculate and report the total number of rows with NAs
 dfComplete <- df[complete.cases(df),]
 NumNAs <- nrow(df) - nrow(dfComplete)
 ```
 
-The **total number of missing values** in the dataset is: `r NumNAs`.
+The **total number of missing values** in the dataset is: 2304.
 
 ### Strategy for filling in missing values.
 
@@ -116,7 +127,8 @@ calculated mean for the equivalent interval.
 
 The code below copies the original dataset and then fills in the missing values.
 
-```{r}
+
+```r
 # Replace missing step values with the mean for the matching interval
 dfAdj <- df
 for (i in 1:61) { # days
@@ -132,7 +144,8 @@ for (i in 1:61) { # days
 The histogram below displays the adjusted total number of steps taken each day after 
 imputing data for all missing values.
 
-```{r}
+
+```r
 # Calculate and plot total ADJUSTED steps for each day
 ADJsteps_total <- ddply(dfAdj, "date", summarise, total = sum(steps,na.rm = TRUE))  
 ADJsteps_total$day_num <- c(1:61)
@@ -142,7 +155,11 @@ ggplot(ADJsteps_total, aes(x=day_num,y=total)) +
     geom_bar(stat="identity", fill="#56B4E9", colour="grey") + 
     ggtitle("Total Steps per Day (NA adjusted)") + xlab("Days") + ylab("Total Steps") +
     theme(plot.title = element_text(size=16, face="bold"))
+```
 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+
+```r
 # Calculate mean and median total ADJUSTED number of steps taken per day
 ADJmean_steps <- mean(ADJsteps_total$total, na.rm=TRUE)
 ADJmedian_steps <- median(ADJsteps_total$total, na.rm=TRUE)
@@ -156,13 +173,13 @@ of the two sets of mean and median values indicate that the impact of imputing t
 
 **Missing Data** 
 
-* Mean: `r mean_steps`
-* Median: `r median_steps`           
+* Mean: 9354
+* Median: 1.0395\times 10^{4}           
            
 **Imputed Data** 
 
-* Mean: `r ADJmean_steps` 
-* Median: `r ADJmedian_steps` 
+* Mean: 9928 
+* Median: 1.0439\times 10^{4} 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -170,7 +187,8 @@ To explore if there were any differences in activity patterns for days of the we
 a new factor level was added to the adjusted dataset to indicate whether a given 
 observation was on a weekday or weekend.
 
-```{r}
+
+```r
 # Create new factor variable to indicate if day is a weekday or weekend
 dfAdj$weekday = vector(mode="integer", length=nrow(dfAdj))
 for (i in 1:nrow(dfAdj)) { 
@@ -189,3 +207,5 @@ ggplot(wdata, aes(x=interval,y=steps)) +
     xlab("Intervals") + ylab("Average Steps") +
     theme(plot.title = element_text(size=16, face="bold"))
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
