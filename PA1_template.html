@@ -104,7 +104,7 @@ steps_total$day_num &lt;- c(1:61)
 # Calculate mean and median total number of steps taken per day
 median_steps &lt;- median(steps_total$total, na.rm=TRUE)
 mean_steps &lt;- mean(steps_total$total, na.rm=TRUE)
-median_steps &lt;- round(signif(median_steps, 6))
+median_steps &lt;- formatC(median_steps, format = &quot;fg&quot;)
 mean_steps &lt;- round(mean_steps)
 
 # Bar Chart of steps per day
@@ -117,7 +117,7 @@ ggplot(steps_total, aes(x=day_num,y=total)) +
 </div>
 <div id="mean-and-medial-total-steps" class="section level3">
 <h3>Mean and medial total steps</h3>
-<p>The mean of the total number of steps taken per day is: 9354. The median of the total number of steps taken per day is: 1.039510^{4}.</p>
+<p>The mean of the total number of steps taken per day is: 9354. The median of the total number of steps taken per day is: 10395.</p>
 </div>
 </div>
 <div id="what-is-the-average-daily-activity-pattern" class="section level2">
@@ -187,17 +187,17 @@ ggplot(ADJsteps_total, aes(x=day_num,y=total)) +
 ADJmean_steps &lt;- mean(ADJsteps_total$total, na.rm=TRUE)
 ADJmedian_steps &lt;- median(ADJsteps_total$total, na.rm=TRUE)
 ADJmean_steps &lt;- round(ADJmean_steps)
-ADJmedian_steps &lt;- round(signif(ADJmedian_steps, 6))</code></pre>
+ADJmedian_steps &lt;- formatC(ADJmedian_steps, format = &quot;fg&quot;)</code></pre>
 <p>The calculated mean and median for the total number of steps taken per day, both with missing data and after replacing the missing values, are shown below. Comparison of the of the two sets of mean and median values indicate that the impact of imputing the missing data was an increase in the average number of steps taken per day.</p>
 <p><strong>Missing Data</strong></p>
 <ul>
 <li>Mean: 9354</li>
-<li>Median: 1.039510^{4}</li>
+<li>Median: 10395</li>
 </ul>
 <p><strong>Imputed Data</strong></p>
 <ul>
 <li>Mean: 9928</li>
-<li>Median: 1.043910^{4}</li>
+<li>Median: 10439</li>
 </ul>
 </div>
 </div>

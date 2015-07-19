@@ -54,7 +54,7 @@ steps_total$day_num <- c(1:61)
 # Calculate mean and median total number of steps taken per day
 median_steps <- median(steps_total$total, na.rm=TRUE)
 mean_steps <- mean(steps_total$total, na.rm=TRUE)
-median_steps <- round(signif(median_steps, 6))
+median_steps <- formatC(median_steps, format = "fg")
 mean_steps <- round(mean_steps)
 
 # Bar Chart of steps per day
@@ -69,7 +69,7 @@ ggplot(steps_total, aes(x=day_num,y=total)) +
 
 ### Mean and medial total steps
 The mean of the total number of steps taken per day is: 9354.  The median 
-of the total number of steps taken per day is: 1.0395\times 10^{4}.
+of the total number of steps taken per day is: 10395.
 
 
 ## What is the average daily activity pattern?
@@ -164,7 +164,7 @@ ggplot(ADJsteps_total, aes(x=day_num,y=total)) +
 ADJmean_steps <- mean(ADJsteps_total$total, na.rm=TRUE)
 ADJmedian_steps <- median(ADJsteps_total$total, na.rm=TRUE)
 ADJmean_steps <- round(ADJmean_steps)
-ADJmedian_steps <- round(signif(ADJmedian_steps, 6))
+ADJmedian_steps <- formatC(ADJmedian_steps, format = "fg")
 ```
 
 The calculated mean and median for the total number of steps taken per day, both with missing data and after
@@ -174,12 +174,12 @@ of the two sets of mean and median values indicate that the impact of imputing t
 **Missing Data** 
 
 * Mean: 9354
-* Median: 1.0395\times 10^{4}           
+* Median: 10395           
            
 **Imputed Data** 
 
 * Mean: 9928 
-* Median: 1.0439\times 10^{4} 
+* Median: 10439 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
